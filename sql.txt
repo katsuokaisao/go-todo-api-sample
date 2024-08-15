@@ -1,0 +1,14 @@
+psql -U todo-api -d todo_api
+
+CREATE TABLE Todos (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    assignee VARCHAR(255),
+    status VARCHAR(50) NOT NULL,
+    priority VARCHAR(50),
+    begin_at TIMESTAMPTZ,
+    end_at TIMESTAMPTZ,
+    expire_at TIMESTAMPTZ,
+    expired BOOLEAN,
+    explanation TEXT
+);

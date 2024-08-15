@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:14
+    ports:
+      - "54322:5432"
+    environment:
+      POSTGRES_USER: todo-api
+      POSTGRES_PASSWORD: todo-api
+      POSTGRES_DB: todo_api
