@@ -16,6 +16,7 @@ var (
 	ErrTodoExpireAtBeforeNow = errors.New("todo expire_at is before now")
 	ErrRecordNotFound        = errors.New("record not found")
 	ErrConflict              = errors.New("conflict")
+	ErrInvalidToken          = errors.New("invalid token")
 )
 
 func ToGinResponse(c *gin.Context, err error) {
@@ -24,6 +25,9 @@ func ToGinResponse(c *gin.Context, err error) {
 		return
 	} else if errors.Is(err, ErrRecordNotFound) {
 		c.JSON(http.StatusNotFound, gin.H{"message": http.StatusText(http.StatusNotFound)})
+		return
+	} else if errors.Is(err, ErrInvalidToken) {
+		c.JSON(http.StatusUnauthorized, gin.H{"message": http.StatusText(http.StatusUnauthorized)})
 		return
 	} else {
 		c.JSON(http.StatusInternalServerError, gin.H{"message": http.StatusText(http.StatusInternalServerError)})

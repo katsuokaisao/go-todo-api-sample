@@ -18,6 +18,7 @@ import (
 
 func SetUpServe(cfg *domain.Env) (*Serve, error) {
 	apiEnv := provideAPIEnv(cfg)
+	jwtParser := domain.NewJWTParser(apiEnv)
 	dbEnv := provideDBEnv(cfg)
 	rdbRDB, err := rdb.NewRDB(dbEnv)
 	if err != nil {
@@ -26,7 +27,7 @@ func SetUpServe(cfg *domain.Env) (*Serve, error) {
 	todoRepository := rdb.NewTodoRepository(rdbRDB)
 	todoUseCase := usecase.NewTodoUseCase(todoRepository)
 	todoHandler := handler.NewTodoHandler(todoUseCase)
-	server := api.NewServer(apiEnv, todoHandler)
+	server := api.NewServer(apiEnv, jwtParser, todoHandler)
 	serve := NewServe(server)
 	return serve, nil
 }

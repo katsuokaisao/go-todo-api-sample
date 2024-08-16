@@ -34,7 +34,8 @@ func (e *Env) Load() error {
 }
 
 type APIEnv struct {
-	Addr string `env:"API_ADDR" envDefault:":8080"`
+	Addr      string `env:"API_ADDR" envDefault:":8080"`
+	JwtSecret string `env:"API_JWT_SECRET"`
 }
 
 type DBEnv struct {

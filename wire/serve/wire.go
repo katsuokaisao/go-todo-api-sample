@@ -26,6 +26,7 @@ func SetUpServe(cfg *domain.Env) (*Serve, error) {
 	wire.Build(
 		NewServe,
 		api.NewServer,
+		domain.NewJWTParser,
 		handler.NewTodoHandler,
 		usecase.NewTodoUseCase,
 		rdb.NewTodoRepository,
