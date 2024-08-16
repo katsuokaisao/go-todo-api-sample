@@ -1,6 +1,11 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
 
 var (
 	ErrTodoTitleRequired     = errors.New("todo title is required")
@@ -9,4 +14,19 @@ var (
 	ErrTodoPriorityInvalid   = errors.New("todo priority is invalid")
 	ErrTodoBeginAtAfterEndAt = errors.New("todo begin_at is after end_at")
 	ErrTodoExpireAtBeforeNow = errors.New("todo expire_at is before now")
+	ErrRecordNotFound        = errors.New("record not found")
+	ErrConflict              = errors.New("conflict")
 )
+
+func ToGinResponse(c *gin.Context, err error) {
+	if errors.Is(err, ErrConflict) {
+		c.JSON(http.StatusConflict, gin.H{"message": http.StatusText(http.StatusConflict)})
+		return
+	} else if errors.Is(err, ErrRecordNotFound) {
+		c.JSON(http.StatusNotFound, gin.H{"message": http.StatusText(http.StatusNotFound)})
+		return
+	} else {
+		c.JSON(http.StatusInternalServerError, gin.H{"message": http.StatusText(http.StatusInternalServerError)})
+		return
+	}
+}

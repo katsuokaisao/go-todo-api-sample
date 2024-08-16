@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/katsuokaisao/gin-play/api/request"
+	"github.com/katsuokaisao/gin-play/domain"
 	"github.com/katsuokaisao/gin-play/usecase"
 )
 
@@ -37,7 +38,7 @@ func (h *TodoHandler) Create(c *gin.Context) {
 	}
 
 	if err := h.todoUseCase.Create(req.ToDomain()); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": http.StatusInternalServerError})
+		domain.ToGinResponse(c, err)
 		return
 	}
 
@@ -63,7 +64,7 @@ func (h *TodoHandler) List(c *gin.Context) {
 
 	todoList, err := h.todoUseCase.List(req.ToDomain())
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": http.StatusInternalServerError})
+		domain.ToGinResponse(c, err)
 		return
 	}
 
@@ -82,7 +83,7 @@ func (h *TodoHandler) Get(c *gin.Context) {
 
 	todo, err := h.todoUseCase.Get(req.ID)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": http.StatusInternalServerError})
+		domain.ToGinResponse(c, err)
 		return
 	}
 
@@ -118,7 +119,7 @@ func (h *TodoHandler) Update(c *gin.Context) {
 	}
 
 	if err := h.todoUseCase.Update(idInt, req.ToDomain()); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": http.StatusInternalServerError})
+		domain.ToGinResponse(c, err)
 		return
 	}
 
@@ -136,7 +137,7 @@ func (h *TodoHandler) Delete(c *gin.Context) {
 	}
 
 	if err := h.todoUseCase.Delete(req.ID); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"message": http.StatusInternalServerError})
+		domain.ToGinResponse(c, err)
 		return
 	}
 
